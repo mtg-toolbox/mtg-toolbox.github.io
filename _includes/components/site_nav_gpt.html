@@ -1,0 +1,125 @@
+{%- comment -%}
+  Include as: {%- include_cached components/site_nav.html all=bool -%}
+  Depends on: site.
+  Results in: cached HTML for the main navigation when `all` is nil or false;
+    includes links to pages excluded from the main navigation when `all` is true.
+  Includes:
+    components/nav/pages.html
+  Overwrites:
+    pages_top_size, collections_size, collection_entry,
+    collection_key, collection_value, collection.
+{%- endcomment -%}
+
+<nav aria-label="Main" id="site-nav" class="site-nav">
+
+  {% assign last_part = nil %} <!-- Track the last displayed part -->
+
+  {% assign pages_top = site.html_pages
+        | where_exp:"item", "item.title != nil"
+        | where_exp:"item", "item.nav_exclude != true"
+        | sort: "nav_order" %} <!-- Sorting by nav_order -->
+
+  {% if pages_top.size > 0 %}
+    <ul class="nav-list">
+      {% for page in pages_top %}
+        {%- if page.part and page.part != last_part -%}
+          <li class="nav-part"><strong>{{ page.part }}</strong></li> <!-- Display the part heading -->
+          <hr /> <!-- Draw a line under the part -->
+          {% assign last_part = page.part %} <!-- Track the part to avoid duplication -->
+        {%- endif -%}
+
+        <!-- Render the top-level page -->
+        {%- if page.parent == nil -%}
+          <li class="nav-list-item">
+            <a href="{{ page.url | relative_url }}" class="nav-list-link">{{ page.title }}</a>
+
+            <!-- Fetch children of the current page -->
+            {% assign children = site.html_pages | where: "parent", page.url %}
+            {% if children.size > 0 %}
+              <ul class="nav-sub-list">
+                {% for child in children %}
+                  <li class="nav-sub-list-item">
+                    <a href="{{ child.url | relative_url }}" class="nav-sub-list-link">{{ child.title }}</a>
+
+                    <!-- Fetch grandchildren of the current child -->
+                    {% assign grandchildren = site.html_pages | where: "parent", child.url %}
+                    {% if grandchildren.size > 0 %}
+                      <ul class="nav-sub-sub-list">
+                        {% for grandchild in grandchildren %}
+                          <li class="nav-sub-sub-list-item">
+                            <a href="{{ grandchild.url | relative_url }}" class="nav-sub-sub-list-link">{{ grandchild.title }}</a>
+                          </li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </li>
+        {%- endif -%}
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {%- if site.nav_external_links -%}
+    <ul class="nav-list">
+      {%- for node in site.nav_external_links -%}
+        <li class="nav-list-item external">
+          <a href="{{ node.url | absolute_url }}" class="nav-list-link external"
+            {% if node.opens_in_new_tab or node.opens_in_new_tab == nil and site.nav_external_links_new_tab %}
+              target="_blank" rel="noopener noreferrer"
+            {% endif %}
+          >
+            {{ node.title }}
+            {% unless node.hide_icon %}
+              <svg viewBox="0 0 24 24" aria-labelledby="svg-external-link-title"><use xlink:href="#svg-external-link"></use></svg>
+            {% endunless %}
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  {% if site.just_the_docs.collections %}
+    {% assign collections_size = site.just_the_docs.collections | size %}
+    {% for collection_entry in site.just_the_docs.collections %}
+      {% assign collection_key = collection_entry[0] %}
+      {% assign collection_value = collection_entry[1] %}
+      {% assign collection = site[collection_key] %}
+      {% if collection_value.nav_exclude != true %}
+        {%- if collection_value.part and collection_value.part != last_part -%}
+          <li class="nav-part"><strong>{{ collection_value.part }}</strong></li> <!-- Display the part heading for collections -->
+          <hr /> <!-- Draw a line under the part -->
+          {% assign last_part = collection_value.part %} <!-- Track the part to avoid duplication -->
+        {%- endif -%}
+
+        <!-- Render the collection -->
+        {% if collections_size > 1 or pages_top.size > 0 %}
+          {% if collection_value.nav_fold == true %}
+            <ul class="nav-list nav-category-list">
+              <li class="nav-list-item">
+                {%- if collection.size > 0 -%}
+                <button class="nav-list-expander btn-reset" aria-label="Toggle collection {{ collection_value.name }}" aria-pressed="false">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><use xlink:href="#svg-arrow-right"></use></svg>
+                </button>
+                {%- endif -%}
+                <div class="nav-category">{{ collection_value.name }}</div>
+                {% include components/nav/pages.html pages=collection all=include.all %}
+              </li>
+            </ul>
+          {% else %}
+            <div class="nav-category">{{ collection_value.name }}</div>
+            {% include components/nav/pages.html pages=collection all=include.all %}
+          {% endif %}
+        {% else %}
+          {% include components/nav/pages.html pages=collection all=include.all %}
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</nav>
+
+{% if site.nav_error_report %}
+  {{ nav_error_report }}
+{%- endif %}

@@ -1,0 +1,359 @@
+{"0": {
+    "doc": "AnonSystem",
+    "title": "AnonSystem",
+    "content": " ",
+    "url": "/",
+    
+    "relUrl": "/"
+  },"1": {
+    "doc": "Model Source and Checkpoint",
+    "title": "Table of contents",
+    "content": ". | Source Code | Architecture | Download Trained Models . | Base Models | Mute Models | MuteGenre1 Models | MuteGenre2 Models | . | API . | 1. Loading Trained Models | 2. One pass groove to drum generation . | Prepare Necessary Imports | Inference | . | 3. Encoding/Decoding | 4. Random Sampling | . | . ",
+    "url": "/12/#table-of-contents",
+    
+    "relUrl": "/12/#table-of-contents"
+  },"2": {
+    "doc": "Model Source and Checkpoint",
+    "title": "Source Code",
+    "content": ". Note The source code will be provided as a git repository in the final version. In the meantime, you can download the source code as a zip file. Source Code . Note This section will be dedicated to the trained generative models. To access and read more about the GenreClassifier model, refer to here . ",
+    "url": "/12/#source-code",
+    
+    "relUrl": "/12/#source-code"
+  },"3": {
+    "doc": "Model Source and Checkpoint",
+    "title": "Architecture",
+    "content": ". Encoder: n_layers: 3 n_heads: 4 embedding_dim: 128 ffn_dim: 512 Latent: latent_dim: 128 Decoder: n_layers: 7 n_heads: 8 embedding_dim: 16 ffn_dim: 16 . ",
+    "url": "/12/#architecture",
+    
+    "relUrl": "/12/#architecture"
+  },"4": {
+    "doc": "Model Source and Checkpoint",
+    "title": "Download Trained Models",
+    "content": ". Base Models . Beta 0.2 Beta 0.5 Beta 1.0 . Mute Models . Beta 0.2 Beta 0.5 Beta 1.0 . MuteGenre1 Models . Beta 0.2 Beta 0.5 Beta 1.0 . MuteGenre2 Models . Beta 0.2 Beta 0.5 Beta 1.0 . ",
+    "url": "/12/#download-trained-models",
+    
+    "relUrl": "/12/#download-trained-models"
+  },"5": {
+    "doc": "Model Source and Checkpoint",
+    "title": "API",
+    "content": ". 1. Loading Trained Models . First, define a generalised function to load a model from a given path. The function takes the path to the model, the model class, and the parameters of the model as input. The function returns the loaded model. import torch from model import BaseVAE, MuteVAE, MuteGenreLatentVAE, MuteLatentGenreInputVAE def load_model(model_path, model_class, params_dict=None, is_evaluating=True, device=None): try: if device is not None: loaded_dict = torch.load(model_path, map_location=device) else: loaded_dict = torch.load(model_path) except: loaded_dict = torch.load(model_path, map_location=torch.device('cpu')) if params_dict is None: if 'params' in loaded_dict: params_dict = loaded_dict['params'] else: raise Exception(f\"Could not instantiate model as params_dict is not found. \" f\"Please provide a params_dict either as a json path or as a dictionary\") if isinstance(params_dict, str): import json with open(params_dict, 'r') as f: params_dict = json.load(f) model = model_class(params_dict) model.load_state_dict(loaded_dict[\"model_state_dict\"]) if is_evaluating: model.eval() return model . Subsequently, you can load the model using the function as follows: . model_base = load_model(\"path/to/base_vae_beta_0_2.pth\", BaseVAE) model_mute = load_model(\"path/to/mute_vae_beta_0_2.pth\", MuteVAE) model_mute_genre1 = load_model(\"path/to/mute_genre_latent_vae_beta_0_2.pth\", MuteGenreLatentVAE) model_mute_genre2 = load_model(\"path/to/mute_latent_genre_input_vae_beta_0_2.pth\", MuteLatentGenreInputVAE) . 2. One pass groove to drum generation . Prepare Necessary Imports . First, prepare the groove input (shape: Batch, 32, 3) . groove_hits = torch.tensor([1, 0, 0, 0] * 8, dtype=torch.float).view(1, 32, 1).float() groove_velocities = torch.rand((1, 32, 1)) * groove_hits # values between 0 and 1 at hits == 1 groove_offsets = (torch.rand((1, 32, 1)) - 0.5) * groove_hits # values between -0.5 and 0.5 at hits == 1 input_groove = torch.cat([groove_hits, groove_velocities, groove_offsets], dim=-1) . If you’re using Mute, MuteGenre1, MuteGenre2 models, you need to prepare controls as well. # 0 for unmuted, 1 for muted kick_is_muted = torch.tensor([[0]], dtype=torch.long) snare_is_muted = torch.tensor([[0]], dtype=torch.long) hat_is_muted = torch.tensor([[0]], dtype=torch.long) tom_is_muted = torch.tensor([[0]], dtype=torch.long) cymbal_is_muted = torch.tensor([[0]], dtype=torch.long) # genre controls # use 0 to 8 for ['Afro', 'Disco', 'Funk', 'Hip-Hop/R&amp;B/Soul', 'Jazz', 'Latin', 'Pop', 'Reggae', 'Rock'] genre_ix = torch.tensor([[3]], dtype=torch.long) # Hip-Hop/R&amp;B/Soul . Inference . Then, use predict to quickly forward the input groove through the model and post-process the output. # simple prediction hvo, latent_z = model_base.predict(input_groove) hvo, latent_z = model_mute.predict(input_groove, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) hvo, latent_z = model_mute_genre1.predict(input_groove, genre_ix, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) hvo, latent_z = model_mute_genre2.predict(input_groove, genre_ix, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) . or use forward method for more control over the output. # forward pass h_logits, v_logits, o_logits, mu, log_var, latent_z = model_base.forward(input_groove) h_logits, v_logits, o_logits, mu, log_var, latent_z = model_mute.forward(input_groove, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) h_logits, v_logits, o_logits, mu, log_var, latent_z = model_mute_genre1.forward(input_groove, genre_ix, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) h_logits, v_logits, o_logits, mu, log_var, latent_z = model_mute_genre2.forward(input_groove, genre_ix, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) # activate outputs hits = torch.sigmoid(h_logits) velocities = torch.tanh(v_logits) + 0.5 # Make sure you use 0.5 offsets = torch.tanh(o_logits) . 3. Encoding/Decoding . Prepare inputs as shown above, then: . # Encoding mu, log_var, latent_z, memory = model_base.encodeLatent(input_groove) # memory is prior to mu and log_var mu, log_var, latent_z, memory = model_mute.encodeLatent(input_groove) mu, log_var, latent_z, memory = model_mute_genre1.encodeLatent(input_groove) mu, log_var, latent_z, memory = model_mute_genre2.encodeLatent(input_groove, genre_ix) # genre_ix is passed to the encoder # Decoding h_logits, v_logits, o_logits, hvo_logits = model_base.decode(latent_z) h_logits, v_logits, o_logits, hvo_logits = model_mute.decode(latent_z, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) h_logits, v_logits, o_logits, hvo_logits = model_mute_genre1.decode(latent_z, genre_ix, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) # genre passed to the decoder h_logits, v_logits, o_logits, hvo_logits = model_mute_genre2.decode(latent_z, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) # activate outputs hits = torch.sigmoid(h_logits) velocities = torch.tanh(v_logits) + 0.5 # Make sure you use 0.5 offsets = torch.tanh(o_logits) . 4. Random Sampling . # Random Sampling latent_z = torch.randn(1, 128) h_logits, v_logits, o_logits, hvo_logits = model_base.decode(latent_z) h_logits, v_logits, o_logits, hvo_logits = model_mute.decode(latent_z, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) h_logits, v_logits, o_logits, hvo_logits = model_mute_genre1.decode(latent_z, genre_ix, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) h_logits, v_logits, o_logits, hvo_logits = model_mute_genre2.decode(latent_z, kick_is_muted, snare_is_muted, hat_is_muted, tom_is_muted, cymbal_is_muted) . ",
+    "url": "/12/#api",
+    
+    "relUrl": "/12/#api"
+  },"6": {
+    "doc": "Model Source and Checkpoint",
+    "title": "Model Source and Checkpoint",
+    "content": " ",
+    "url": "/12/",
+    
+    "relUrl": "/12/"
+  },"7": {
+    "doc": "Reconstructed Samples (Audio)",
+    "title": "Table of contents",
+    "content": ". | Generation Conditions | . ",
+    "url": "/13/#table-of-contents",
+    
+    "relUrl": "/13/#table-of-contents"
+  },"8": {
+    "doc": "Reconstructed Samples (Audio)",
+    "title": "Generation Conditions",
+    "content": "For the following examples, we grab 50 random samples from the test set, flatten them into single-voice rhythms, and then generate 2-bar drums accordingly. The generations are divided per genre. Note Make sure you select the MIDI File and Beta dropdowns to listen to load and listen to the files. ",
+    "url": "/13/#generation-conditions",
+    
+    "relUrl": "/13/#generation-conditions"
+  },"9": {
+    "doc": "Reconstructed Samples (Audio)",
+    "title": "Reconstructed Samples (Audio)",
+    "content": " ",
+    "url": "/13/",
+    
+    "relUrl": "/13/"
+  },"10": {
+    "doc": "Genre Classifier Model",
+    "title": "Table of contents",
+    "content": ". | Introduction . | Validation | Download | Load Model | Usage | . | . ",
+    "url": "/14/#table-of-contents",
+    
+    "relUrl": "/14/#table-of-contents"
+  },"11": {
+    "doc": "Genre Classifier Model",
+    "title": "Introduction",
+    "content": ". We trained a genre classifier model. The classifier architecture is shown below: . The hyperparameters used for training the model are as follows: . Encoder: n_layers: 5 n_heads: 8 embedding_dim: 128 ffn_dim: 256 n_genres: 9 . ",
+    "url": "/14/#introduction",
+    
+    "relUrl": "/14/#introduction"
+  },"12": {
+    "doc": "Genre Classifier Model",
+    "title": "Validation",
+    "content": ". The model obtained an F1 score of 0.93 on the validation set. The confusion matrix is shown below: . ",
+    "url": "/14/#validation",
+    
+    "relUrl": "/14/#validation"
+  },"13": {
+    "doc": "Genre Classifier Model",
+    "title": "Download",
+    "content": ". GenreClassifier Model . ",
+    "url": "/14/#download",
+    
+    "relUrl": "/14/#download"
+  },"14": {
+    "doc": "Genre Classifier Model",
+    "title": "Load Model",
+    "content": ". You can load the model similar to the generative models . import torch from model import GenreClassifier def load_model(model_path, model_class, params_dict=None, is_evaluating=True, device=None): try: if device is not None: loaded_dict = torch.load(model_path, map_location=device) else: loaded_dict = torch.load(model_path) except: loaded_dict = torch.load(model_path, map_location=torch.device('cpu')) if params_dict is None: if 'params' in loaded_dict: params_dict = loaded_dict['params'] else: raise Exception(f\"Could not instantiate model as params_dict is not found. \" f\"Please provide a params_dict either as a json path or as a dictionary\") if isinstance(params_dict, str): import json with open(params_dict, 'r') as f: params_dict = json.load(f) model = model_class(params_dict) model.load_state_dict(loaded_dict[\"model_state_dict\"]) if is_evaluating: model.eval() return model model_genre_classifier = load_model(\"path/to/genre_classifier.pth\", GenreClassifier) . ",
+    "url": "/14/#load-model",
+    
+    "relUrl": "/14/#load-model"
+  },"15": {
+    "doc": "Genre Classifier Model",
+    "title": "Usage",
+    "content": ". import torch # prepare input drum_hits = torch.rand((1, 32, 9)) # 9 for kick, snare, closed hat, open hat, low tom, mid tom, high tom, crash, ride drum_hits = torch.where(drum_hits &gt; 0.5, torch.tensor(1.0), torch.tensor(0.0)) drum_velocities = torch.rand((1, 32, 9)) * drum_hits drum_offsets = (torch.rand((1, 32, 9)) - 0.5) * drum_hits drum_hvo = torch.cat([drum_hits, drum_velocities, drum_offsets], dim=-1) # predict genre_ix, genre_probs = model_classifier.predict(drum_hvo) # genre_ix is the predicted genre index corresponding to ['Afro', 'Disco', 'Funk', 'Hip-Hop/R&amp;B/Soul', 'Jazz', 'Latin', 'Pop', 'Reggae', 'Rock'] # genre_probs is the predicted probabilities for each genre . ",
+    "url": "/14/#usage",
+    
+    "relUrl": "/14/#usage"
+  },"16": {
+    "doc": "Genre Classifier Model",
+    "title": "Genre Classifier Model",
+    "content": " ",
+    "url": "/14/",
+    
+    "relUrl": "/14/"
+  },"17": {
+    "doc": "Mute Control Generations (Audio)",
+    "title": "Table of contents",
+    "content": ". | Voice Muted Test Samples | . ",
+    "url": "/15/#table-of-contents",
+    
+    "relUrl": "/15/#table-of-contents"
+  },"18": {
+    "doc": "Mute Control Generations (Audio)",
+    "title": "Voice Muted Test Samples",
+    "content": "For each voice group (i.e. Kick, Snare, Hats, Toms, Cymbals), we randomly select 100 test samples, in which the voice is active. We then mute the voice and generate the new pattern using the models. ",
+    "url": "/15/#voice-muted-test-samples",
+    
+    "relUrl": "/15/#voice-muted-test-samples"
+  },"19": {
+    "doc": "Mute Control Generations (Audio)",
+    "title": "Mute Control Generations (Audio)",
+    "content": " ",
+    "url": "/15/",
+    
+    "relUrl": "/15/"
+  },"20": {
+    "doc": "Genre Control Generations (Audio)",
+    "title": "Table of contents",
+    "content": ". | Genre Control Test Samples | . ",
+    "url": "/16/#table-of-contents",
+    
+    "relUrl": "/16/#table-of-contents"
+  },"21": {
+    "doc": "Genre Control Generations (Audio)",
+    "title": "Genre Control Test Samples",
+    "content": "For each genre, 20 samples are randomly selected from the test set while corresponding to the genre. The samples are then rendered in other styles . ",
+    "url": "/16/#genre-control-test-samples",
+    
+    "relUrl": "/16/#genre-control-test-samples"
+  },"22": {
+    "doc": "Genre Control Generations (Audio)",
+    "title": "Genre Control Generations (Audio)",
+    "content": " ",
+    "url": "/16/",
+    
+    "relUrl": "/16/"
+  },"23": {
+    "doc": "Interpolation Generations (Audio)",
+    "title": "Table of contents",
+    "content": ". | Generation Conditions | . ",
+    "url": "/17/#table-of-contents",
+    
+    "relUrl": "/17/#table-of-contents"
+  },"24": {
+    "doc": "Interpolation Generations (Audio)",
+    "title": "Generation Conditions",
+    "content": "50 pairs of samples interpolated from the test set. The beginning and end samples are selected such that they belong to the same genre. ",
+    "url": "/17/#generation-conditions",
+    
+    "relUrl": "/17/#generation-conditions"
+  },"25": {
+    "doc": "Interpolation Generations (Audio)",
+    "title": "Interpolation Generations (Audio)",
+    "content": " ",
+    "url": "/17/",
+    
+    "relUrl": "/17/"
+  },"26": {
+    "doc": "Random Generations (Audio)",
+    "title": "Table of contents",
+    "content": ". | Generation Conditions | . ",
+    "url": "/18/#table-of-contents",
+    
+    "relUrl": "/18/#table-of-contents"
+  },"27": {
+    "doc": "Random Generations (Audio)",
+    "title": "Generation Conditions",
+    "content": "For the random generations, we generate 100 random samples for each model. Warning Note that the generations for different beta values are not comparable! That is, if you change the beta value, you shouldn’t expect the generations to be similar/relevant to each other. ",
+    "url": "/18/#generation-conditions",
+    
+    "relUrl": "/18/#generation-conditions"
+  },"28": {
+    "doc": "Random Generations (Audio)",
+    "title": "Random Generations (Audio)",
+    "content": " ",
+    "url": "/18/",
+    
+    "relUrl": "/18/"
+  },"29": {
+    "doc": "All UMAPs",
+    "title": "Table of contents",
+    "content": ". | UMAP | . ",
+    "url": "/19/#table-of-contents",
+    
+    "relUrl": "/19/#table-of-contents"
+  },"30": {
+    "doc": "All UMAPs",
+    "title": "UMAP",
+    "content": ". The following plots are the result of applying the UMAP dimension reduction algorithm to the encodings obtained from the `test set’. The maps are generated for all four model variations . ",
+    "url": "/19/#umap",
+    
+    "relUrl": "/19/#umap"
+  },"31": {
+    "doc": "All UMAPs",
+    "title": "All UMAPs",
+    "content": " ",
+    "url": "/19/",
+    
+    "relUrl": "/19/"
+  },"32": {
+    "doc": "VST Plugin",
+    "title": "Table of contents",
+    "content": ". | Source Code | Standalone and VST Plugins | . ",
+    "url": "/20/#table-of-contents",
+    
+    "relUrl": "/20/#table-of-contents"
+  },"33": {
+    "doc": "VST Plugin",
+    "title": "Source Code",
+    "content": ". Note The source code will be provided as a git repository in the final version. In the meantime, you can download the source code as a zip file. Download . ",
+    "url": "/20/#source-code",
+    
+    "relUrl": "/20/#source-code"
+  },"34": {
+    "doc": "VST Plugin",
+    "title": "Standalone and VST Plugins",
+    "content": ". Note The plugin deployment installers will be provided in the final version. For now, the source code can be downloaded as a zip file. In this version, we are using the MuteGenre1 model. The plugin is cross-platform and has been tested on Linux (Ubuntu 20.04), MacOS (Intel and ARM) and Windows. Source Code for deployment on Linux-based SBCs (e.g. Raspberry Pi) is under development and will be provided in the final version. Download . ",
+    "url": "/20/#standalone-and-vst-plugins",
+    
+    "relUrl": "/20/#standalone-and-vst-plugins"
+  },"35": {
+    "doc": "VST Plugin",
+    "title": "VST Plugin",
+    "content": " ",
+    "url": "/20/",
+    
+    "relUrl": "/20/"
+  },"36": {
+    "doc": "Live at AnonVenue (Feb 2024)",
+    "title": "Table of contents",
+    "content": ". | Live at AnonVenue (Feb 2024) | Short Promo Video | Interview | Phone Recording | Full Concert | . ",
+    "url": "/21/#table-of-contents",
+    
+    "relUrl": "/21/#table-of-contents"
+  },"37": {
+    "doc": "Live at AnonVenue (Feb 2024)",
+    "title": "Live at AnonVenue (Feb 2024)",
+    "content": ". ",
+    "url": "/21/",
+    
+    "relUrl": "/21/"
+  },"38": {
+    "doc": "Live at AnonVenue (Feb 2024)",
+    "title": "Short Promo Video",
+    "content": "Your browser does not support the video tag. ",
+    "url": "/21/#short-promo-video",
+    
+    "relUrl": "/21/#short-promo-video"
+  },"39": {
+    "doc": "Live at AnonVenue (Feb 2024)",
+    "title": "Interview",
+    "content": "Your browser does not support the video tag. ",
+    "url": "/21/#interview",
+    
+    "relUrl": "/21/#interview"
+  },"40": {
+    "doc": "Live at AnonVenue (Feb 2024)",
+    "title": "Phone Recording",
+    "content": "Your browser does not support the video tag. ",
+    "url": "/21/#phone-recording",
+    
+    "relUrl": "/21/#phone-recording"
+  },"41": {
+    "doc": "Live at AnonVenue (Feb 2024)",
+    "title": "Full Concert",
+    "content": " ",
+    "url": "/21/#full-concert",
+    
+    "relUrl": "/21/#full-concert"
+  },"42": {
+    "doc": "Jam Session Recordings",
+    "title": "Table of contents",
+    "content": ". | System Demo | Audio Recordings (Long Jam Sessions) | . ",
+    "url": "/22/#table-of-contents",
+    
+    "relUrl": "/22/#table-of-contents"
+  },"43": {
+    "doc": "Jam Session Recordings",
+    "title": "System Demo",
+    "content": "The following video shows the system in action. The interface shown here is slightly different from the one shared in this website. However, the underlying system is the same. To download the latest plugin, please visit the VST Plugins page. In this recording, we use a bassline arpeggio played, looped and fed into the system (bottom-right corner). In the meantime, a live performance on the synthesizer (top-right) is also fed into the system. The system generates the drums in real-time, which are then synthesized using a drum synthesizer (left). Your browser does not support the video tag. Setup: . | An arpegiating bassline played back using an ableton stock plugin | An Arturia Polybrute synthesizer played live. | AnonSystemreceiving MIDI grooves from both the arpegiated basseline and the live performance on the synthesizer | . Drum Synthesis: . | Cardinal Virtual Eurorack Environment | Cardinal receives the generated drums, strips the gats and velocities to trigger the modules | Triggers used to activate voices while velocities are used either as VCA gains and/or synthesis parameters. | While 9 voices are generated, some voices were grouped together | Typical Kick and Snare (with velocity controled VCAs) were used for kick and snares | A single FM Operator was used for all hats (closed and open). The decay of the envelop was controlled by the type of trigger | For Rides and Toms, two separate Mutable Instrument Plait modules were used. | . ",
+    "url": "/22/#system-demo",
+    
+    "relUrl": "/22/#system-demo"
+  },"44": {
+    "doc": "Jam Session Recordings",
+    "title": "Audio Recordings (Long Jam Sessions)",
+    "content": ". Live accompaniment generated based on a live synth performance. Drums synthesized using Microtonic layered with Acoustic drums . Your browser does not support the video tag. Here we play a sequence of chords (MIDI) and also play the synthesizer live. The drum accompaniments are generated using a modular patch and near the end using acoustic drums as well. Your browser does not support the video tag. Similar to above, however, the generations were played back on a virtual acoustic drum kit. Your browser does not support the video tag. In this one, we have programmed 4 sequences on the Electron Analog Four synth which are enabled/disabled during the performance. These sequences drive the accompaniment engine while we perform live on a separate synth as well. At times, we don’t feed the groove of the live performance to the system so that the groove is stable and more conditioned on the programmed sequences . Your browser does not support the video tag. These jams were done entirely in Ableton. However, we live looped many parallel midi sequences and also played live patterns that were fed to the accompaniment generator. All drums were synthesized using an acoustic drum kit . Your browser does not support the video tag. Your browser does not support the video tag. ",
+    "url": "/22/#audio-recordings-long-jam-sessions",
+    
+    "relUrl": "/22/#audio-recordings-long-jam-sessions"
+  },"45": {
+    "doc": "Jam Session Recordings",
+    "title": "Jam Session Recordings",
+    "content": " ",
+    "url": "/22/",
+    
+    "relUrl": "/22/"
+  },"46": {
+    "doc": "Colab Notebooks",
+    "title": "Table of contents",
+    "content": ". | Colab Notebooks . | Latent Space Exploration with Control Features | Interpolation | . | . ",
+    "url": "/23/#table-of-contents",
+    
+    "relUrl": "/23/#table-of-contents"
+  },"47": {
+    "doc": "Colab Notebooks",
+    "title": "Colab Notebooks",
+    "content": ". The following notebooks allow you to quickly interact with the trained models without having to install any dependencies on your local machine. Latent Space Exploration with Control Features . In here you can generate random patterns, and interactively modify the latent space to generate new patterns. Moreover, when applicable, you can also control the generation of the patterns using control features. Interpolation . In this notebook, you can interpolate between two patterns to generate new patterns. ",
+    "url": "/23/",
+    
+    "relUrl": "/23/"
+  },"48": {
+    "doc": "Welcome!",
+    "title": "AnonSystem (ISMIR 2025)",
+    "content": "All supplementary material for the ISMIR submission can be found in this website . ",
+    "url": "/#anonsystem-ismir-2025",
+    
+    "relUrl": "/#anonsystem-ismir-2025"
+  },"49": {
+    "doc": "Welcome!",
+    "title": "Quick Demo",
+    "content": " ",
+    "url": "/#quick-demo",
+    
+    "relUrl": "/#quick-demo"
+  },"50": {
+    "doc": "Welcome!",
+    "title": "Welcome!",
+    "content": " ",
+    "url": "/",
+    
+    "relUrl": "/"
+  }
+}

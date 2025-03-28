@@ -1,0 +1,125 @@
+// custom SCSS (or CSS) goes here
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+/* Custom Greyscale Styling */
+
+
+
+
+// GO TO SUPPORT/_VARIABLES TO CHANGE WIDTH
+
+
+
+
+
+
+
+
+/* Custom color variables */
+$canvas-color: #343434;  // Dark grey background for main content
+$primary-color: #343434; // Black for navigation bar
+$text-color: #d2d2d2;    // Light grey/white text for main content
+$border-color: #727272;  // Grey for borders
+$link-color: #eeeded;    // Light grey/white for links
+$link-hover-background: #555555; // Darker grey for link hover background
+$nav-child-link-color: #ffffff; // Light grey/white for navigation links
+
+/* Apply the styles */
+body {
+  background-color: $canvas-color;
+  font-family: "Playfair Display", serif;
+  color: $text-color;
+  margin: 0;  /* Remove any default margins */
+  padding: 0;  /* Remove any default padding */
+}
+
+a {
+  color: $link-color;
+  font-weight: bold;  /* Make links bold */
+  text-decoration: none; /* Remove underline for links */
+
+  &:hover, &:focus {
+    background-color: $link-hover-background; /* Change background color on hover */
+    color: $text-color;  /* Optional: change text color on hover */
+  }
+
+  &:active {
+    background-color: $border-color; /* Change background when link is active */
+    color: $text-color;  /* Keep text color consistent */
+  }
+}
+
+button {
+  background-color: $primary-color;
+  color: $text-color;
+  border-color: $border-color;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $text-color;
+  font-family: "Playfair Display", serif;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  line-height: 2.5;
+  font-weight: bold;  /* Make all headers bold */
+}
+
+
+
+.site-nav {
+  background-color: $primary-color;  /* Black for navbar */
+}
+
+.side-bar {
+  width: 0%;
+ }
+
+.site-nav ul li a {
+  color: $text-color;  /* Grey for links in navigation */
+}
+
+/* Override navigation arrow colors */
+
+/* For arrows in collapsed navigation items */
+.site-nav ul li a::before {
+  color: $text-color; /* Set arrow to same color as text (light grey/white) */
+}
+
+/* For arrows in expanded navigation items */
+.site-nav ul li.open > a::before {
+  color: $text-color; /* Same color for expanded arrows */
+}
+
+/* Ensure the part-divider has no extra margins */
+nav .part-divider {
+  margin: 0; /* Remove any default margins */
+  padding: 0; /* Remove padding */
+}
+
+/* For the line with minimal spacing */
+nav .part-divider::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 1px; /* Thickness of the line */
+  background-color: #e2e2e2; /* Light grey color */
+  margin: 5px 0; /* Adjust space above and below the line (5px top and bottom) */
+}
+
+
+nav .part-label {
+    margin-top: 10px;     /* Adjust for spacing above the label */
+    margin-bottom: 10px; /* Adjust for spacing below the label */
+    padding-left: 20px;  /* This adds the indentation (like a tab space) */
+    font-style: italic;   /* Italic style */
+    font-weight: bold;    /* Bold style */
+    font-size: 1.2em;    /* Adjust font size if needed */
+    color: #d5d4d4;         /* Optional: Change color to make it subtler */
+}
+
+/* Custom style for specific text (Real-Time Drum Accompaniment Systems) */
+.custom-text {
+  font-size: 1.2em; /* Relative size */
+  font-weight: bold;
+  color: black;     /* Set text color to black */
+  text-decoration: none; /* Remove underlines for any other links */
+}
