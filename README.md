@@ -49,7 +49,7 @@ theme: just-the-docs
 ```
 
 And then execute:
-
+    $ sudo bundle install
     $ bundle
 
 Or install it yourself as:

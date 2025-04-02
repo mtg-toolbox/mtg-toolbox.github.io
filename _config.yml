@@ -13,11 +13,11 @@
 # you will see them accessed via {{ site.title }}, {{ site.github_repo }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: AnonSystem (ISMIR 2025)
-description: All Supplementary Material for `Design, Development and Deployment of Real-Time Drum Accompaniment Sysetms`
+title: MTG Toolbox
+description: A Collection of Generative Audio & MIDI for All
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://anonGenRytmSystem.github.io" # the base hostname & protocol for your site, e.g. http://example.com
-repository: anonGenRytmSystem/anonGenRytmSystem.github.io  # for github-metadata
+url: "https://mtg-toolbox.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+repository: mtg-creative-tools/mtg-creative-tools.github.io  # for github-metadata
 
 permalink: pretty
 
@@ -57,7 +57,7 @@ exclude:
   - fixtures/
 
 # Set a path/url to a logo that will be displayed instead of the title
-#logo: "assets/icon_rtda.png"
+logo: "assets/logos/toolbox_with_mtg_transparent.png"
 
 # Enable or disable the site search
 # Supports true (default) or false
@@ -110,8 +110,8 @@ heading_anchors: true
 
 # Aux links for the upper right navigation
 aux_links:
-  "":
-    - ""
+  "Visit Music Technology Group in Barcelona":
+    - "https://www.upf.edu/web/mtg"
 
 # Makes Aux links open in a new tab. Default is false
 aux_links_new_tab: false
@@ -126,9 +126,12 @@ nav_sort: case_sensitive # Capital letters sorted before lowercase
 
 # External navigation links
 nav_external_links:
-  - title: visit my website
-    url: https://anonGenRytmSystem.github.io
-
+  - title: About MTG
+    url: https://www.upf.edu/web/mtg
+  - title: MTG Members
+    url: https://www.upf.edu/web/mtg/about/team-members
+  - title: Ongoing MTG Projects
+    url: https://www.upf.edu/web/mtg/ongoing-projects
 # Show navigation error report
 nav_error_report: true # default is false/nil.
 
