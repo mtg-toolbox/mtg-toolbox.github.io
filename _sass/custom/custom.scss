@@ -1,25 +1,19 @@
 // custom SCSS (or CSS) goes here
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ponomar&display=swap');
+
 /* Custom Greyscale Styling */
-
-
 
 
 // GO TO SUPPORT/_VARIABLES TO CHANGE WIDTH
 
 
-
-
-
-
-
-
 /* Custom color variables */
-$canvas-color: #343434;  // Dark grey background for main content
-$primary-color: #343434; // Black for navigation bar
-$text-color: #d2d2d2;    // Light grey/white text for main content
+$canvas-color: #000000;  // Dark grey background for main content
+$primary-color: #000000; // Black for navigation bar
+$text-color: #c5c0c0;    // Light grey/white text for main content
 $border-color: #727272;  // Grey for borders
-$link-color: #eeeded;    // Light grey/white for links
+$link-color: #ffffff;    // Light grey/white for links
 $link-hover-background: #555555; // Darker grey for link hover background
 $nav-child-link-color: #ffffff; // Light grey/white for navigation links
 
@@ -107,10 +101,11 @@ nav .part-divider::before {
 
 
 nav .part-label {
+    font-family:"Ponomar", system-ui;
     margin-top: 10px;     /* Adjust for spacing above the label */
     margin-bottom: 10px; /* Adjust for spacing below the label */
     padding-left: 20px;  /* This adds the indentation (like a tab space) */
-    font-style: italic;   /* Italic style */
+    font-style: normal;   /* Italic style */
     font-weight: bold;    /* Bold style */
     font-size: 1.2em;    /* Adjust font size if needed */
     color: #d5d4d4;         /* Optional: Change color to make it subtler */
@@ -120,6 +115,50 @@ nav .part-label {
 .custom-text {
   font-size: 1.2em; /* Relative size */
   font-weight: bold;
-  color: black;     /* Set text color to black */
+  color: #000000;     /* Set text color to black */
   text-decoration: none; /* Remove underlines for any other links */
 }
+
+
+// --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
+// zoom into images
+/* Make the overlay cover the entire screen and hide by default */
+.modal {
+  display: none;          /* hidden by default */
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  text-align: center;
+  overflow: auto;
+}
+
+/* When #imgPop is the target, show the modal. */
+.modal:target {
+  display: block;
+}
+
+.modal img {
+  max-width: 90%;
+  max-height: 90%;
+  margin-top: 2%;
+}
+
+.close {
+  position: absolute;
+  top: 20px; right: 40px;
+  color: #fff;
+  font-size: 36px;
+  text-decoration: none;
+}
+.close:hover {
+  color: #ccc;
+}
+
+
+
+
+// --------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
