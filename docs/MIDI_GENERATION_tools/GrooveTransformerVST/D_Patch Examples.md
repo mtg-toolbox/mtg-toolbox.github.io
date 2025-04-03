@@ -84,7 +84,7 @@ During the session, we navigate the triangular area and change the patterns in r
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/Non-drum Extra Sequencing.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
 <video width="800" height="600" controls>
-  <source src="{{ site.baseurl }}/assets/videos/used/Non-drum Extra Sequencing.mp4" type="video/mp4">
+  <source src="{{ site.baseurl }}/assets/videos/used/Non-drum Extra Sequencing_trimmed.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
@@ -96,7 +96,7 @@ detected by the GrooveTransformer, and the rest are ignored.
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/NonPercussiveAudioInputs.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
 <video width="800" height="600" controls>
-  <source src="{{ site.baseurl }}/assets/videos/used/NonPercussiveAudioInputs.mp4" type="video/mp4">
+  <source src="{{ site.baseurl }}/assets/videos/used/NonPercussiveAudioInputs_trimmed.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
@@ -111,7 +111,7 @@ In the following example, we start from A, morph to B, and then to morph to G (f
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/PatternMorph3Grooves.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
 <video width="800" height="600" controls>
-  <source src="{{ site.baseurl }}/assets/videos/used/PatternMorph3Grooves.mp4" type="video/mp4">
+  <source src="{{ site.baseurl }}/assets/videos/used/PatternMorph3Grooves_trimmed.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
@@ -155,7 +155,8 @@ Alternatively, we can allow the plugin to play a pattern and we can start jammin
 
 ## Parameter Sequencing using Velocity of Generations
 
-Instead of using it as a trigger sequencer, we can use to to sequence parameters of a synthesizer using the velocity of the generations!
+Instead of using it as a trigger sequencer, we can use it to sequence parameters of a synthesizer using the velocity of the generations!
+In the following example, we have prepared a virtual modular patch (in [VCV Rack](https://vcvrack.com/)) that uses the velocity of the generations to modulate some parameters of the [Mutable Instruments Plaits module](https://mutable-instruments.net/modules/plaits/).
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/UsingVelocityFeaturesForParameterSequencing.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
@@ -176,15 +177,21 @@ Instead of using it as a trigger sequencer, we can use to to sequence parameters
 
 ## Rhythmic Manipulation of Audio
 
+So far, we used the plugin to trigger sounds or modulate parameters of a synthesizer. However, we can also use the GrooveTransformer to manipulate audio in real-time.
+
+For this, we need to make custom processing chains that can take the output of the GrooveTransformer and manipulate it in real-time.
+
+In the following example, we have a custom patch in [VCV Rack](https://vcvrack.com/) that takes the output of the GrooveTransformer and uses the trigger/velocity of the generations to activate three voltage-controlled amplifiers (VCAs). Each VCA is connected to a different audio source, and the output of the VCAs is mixed together.
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/RhythmicManipulation of Audio.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
 <video width="800" height="600" controls>
-  <source src="{{ site.baseurl }}/assets/videos/used/RhythmicManipulation of Audio.mp4" type="video/mp4">
+  <source src="{{ site.baseurl }}/assets/videos/used/RhythmicManipulation of Audio_trimmed.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
-or even as a mod source and a drum sequencer
+## Multiple Instances of GrooveTransformer
+Moreover, we can use multiple instances of the plugin each for a separate purpose. For example, we can use one instance of the GrooveTransformer to generate a drum pattern, and another instance to manipulate audio in real-time.
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/ModSource.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
@@ -196,13 +203,18 @@ or even as a mod source and a drum sequencer
 
 ## Pitch Sequencing
 
+While the plugin is designed to generate percussive sequences, we can also use it to generate melodic sequences. 
+For this, we need to use the plugin in conjunction with a synthesizer that can generate pitched sounds. 
+Also, we need to potentially use external MIDI processing to map the output of the GrooveTransformer to the pitch of the synthesizer.
 
+In the following example, we use three instances of the GrooveTransformer to generate three different pitched sequences.
+The pitch of the generated sequences are all modulated randomly or via a MIDI controller, and the modulated pitch is then passed through a quantizer. 
 
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/PitchSequencing.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
 <video width="800" height="600" controls>
-  <source src="{{ site.baseurl }}/assets/videos/used/PitchSequencing.mp4" type="video/mp4">
+  <source src="{{ site.baseurl }}/assets/videos/used/PitchSequencing_trimmed.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
@@ -226,6 +238,7 @@ or even as a mod source and a drum sequencer
 
   <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/GT_SequencerAccompaniment.png" alt="Fullsize">
 </div>
+
 
 
 

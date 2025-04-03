@@ -1,6 +1,6 @@
 ---
 title: Contact Developers
-description: Contact the developers for support, feedback, or feature requests.
+description: Support, feedback, or feature requests.
 permalink: /GrooveTransformer/Contact/
 parent: GrooveTransformer
 has_children: true

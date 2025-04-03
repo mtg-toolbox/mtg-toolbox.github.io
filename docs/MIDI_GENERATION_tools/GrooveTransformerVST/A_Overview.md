@@ -59,7 +59,8 @@ We speculated that such a system would afford the user the liberty of deciding w
 
 # How does it work?
 
-At the core of the plugin is a generative neural network that is trained to convert a given rhythmic loop into a drum loop.
+At the core of the plugin is a small generative neural network that is trained to convert a given rhythmic loop into a drum loop.
+Here by rhythmic loop we mean a pitch-agnostic sequence of note-on events, with exact timing and velocity.
 
 Throughout the training process, the selected model attempts to create an abstract space in which each point (or rather region) corresponds to a unique pattern.
 
@@ -169,6 +170,9 @@ Hence, the system can also _**<u>accompany</u>**_  an incoming rhythmic pattern!
 </div>
 
 
+    The best way to think about this is that the system can playback pre-programmed patterns, while also adapting the playback to a live rhythmic source in real-time.
+
+
 The introduction of the third pattern results in a triangular space, where the user can navigate between the three patterns.
 
 
@@ -256,7 +260,7 @@ Keep in mind that the rhythm extraction from audio sources is not perfect, and i
 
 ### Manual or Automatic Navigation
 
-During the performance, the user manually navigate the space, and the system immediately reacts to the movement. 
+During the performance, the user can manually navigate the space, and the system immediately reacts to the movement. 
 
 We also have implemented mechanisms that allow for automatic navigation of the space, in case the user desires to focus on other aspects of the performance.
 
@@ -307,12 +311,8 @@ Also, a separate set of controls allow for quick manipulation of voicing of the 
 
 Just like most tools that utilize generative models, the GrooveTransformer is not perfect (if there is such a thing as a perfect generative model).
 
-While during training process, we try to ensure that the required features behave as expected, the system can still generate unexpected results.
-
-In the context of a musical tool, this can be a good thing, as it can lead to unexpected and interesting results! 
+While during training process, we try to ensure that the required features behave as expected, the system can still generate unexpected results. In the context of a musical tool, this can be a good thing, as it can lead to unexpected and interesting results! Nevertheless, it is important to keep in mind that the system is not a "magic box" that will always generate the "perfect" drum loop.
 
 What this also implies that, a system like the GrooveTransformer is not a plug-and-play tool, and it requires the user to experiment with the system! 
-
-Ofcourse, this is also not to claim that the system is not capable of generating "boring", "irrelevant", or "nonsensical" results. It can, and it will! But, we also believe it can also generate interesting and potentially inspiring results!
 
 We'd love to hear your thoughts on the system, and we are always open to suggestions on how to improve the system! Please feel free to [reach out to us]({{site.BaseUrl}}/GrooveTransformer/Contact/)!

@@ -25,8 +25,5 @@ We just launched the MTG Toolbox website! This website is a platform for sharing
 Because many of these tools are still under active development, we greatly value your feedback and suggestions. 
 In return, we will strive to make each tool as relevant and useful to the larger community as possible.
 
-<object width="800" height="400" type="application/pdf" data="{{site.baseurl}}/assets/Presentations/Gen_AI_Group.pdf?#zoom=1&scrollbar=0&toolbar=0&navpanes=0">
-    <p>Insert your error message here, if the PDF cannot be displayed.</p>
-</object>
 
 

@@ -33,3 +33,7 @@ Below is a compilation of known bugs and features we plan to implement.
 **Autonomous Features:**
  
 - [ ] Other adaptive algorithms should be implemented
+
+**Rhythm Detection from Audio:**
+
+- [ ] At this moment, audio detection only works with a 44.1kHz sample rate. So if you want to work with audio, make sure your host or the standalone app is set to this sample rate. We will implement a resampling algorithm to allow the plugin to work with any sample rate!
