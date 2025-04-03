@@ -73,8 +73,10 @@ This time, during the performance, we not only navigate the triangular area but 
 
 [//]: # (</video>)
 
-<iframe width="800" height="600" src="https://www.youtube.com/embed/PqI_d1JYQpU?si=oGSNfsZEo0WnauYl&vq=hd2160&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[//]: # (<iframe width="800" height="600" src="https://www.youtube.com/embed/PqI_d1JYQpU?si=oGSNfsZEo0WnauYl&vq=hd2160&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>)
 
+
+<iframe width="800" height="600" src="https://www.youtube.com/embed/PqI_d1JYQpU?si=E7zcWoeCKjKdC7Pb&amp;clip=Ugkxtlok0Ma02HSiY2Gmt2UmrNEA0BRjGzIr&amp;clipt=ELSGFhiU2xk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Ok! Let's take it up a notch. So far, we've been using the generations to trigger drum samples. While designed to generate drum patterns, we can use the generations to trigger any kind of sample!
 
