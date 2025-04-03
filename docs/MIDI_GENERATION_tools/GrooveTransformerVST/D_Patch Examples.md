@@ -150,6 +150,19 @@ Alternatively, we can allow the plugin to play a pattern and we can start jammin
 </video>
 
 
+<video width="800" height="600" controls>
+  <source src="{{ site.baseurl }}/assets/videos/used/snippet3_ms20.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+The performance on the external instrument is not limited to performing the keys! In the following example, we are sequencing the external synth and play with the synthesis parameters in real-time.
+
+<video width="800" height="600" controls>
+  <source src="{{ site.baseurl }}/assets/videos/used/snippet1_ms20_trimmed.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
 ---
 
 # Advanced Use Cases: Going beyond Generating Percussive Sequences
