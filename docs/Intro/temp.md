@@ -13,7 +13,7 @@ part:
 ---
 
 
-<object width="800" height="400" type="application/pdf" data="{{site.baseurl}}/assets/Presentations/Gen_AI_Group.pdf?#zoom=1&scrollbar=0&toolbar=0&navpanes=0">
+<object width="1600" height="800" type="application/pdf" data="{{site.baseurl}}/assets/Presentations/Gen_AI_Group.pdf?#zoom=1&scrollbar=0&toolbar=0&navpanes=0">
     <p>Insert your error message here, if the PDF cannot be displayed.</p>
 </object>
 
