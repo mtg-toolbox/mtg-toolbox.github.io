@@ -75,8 +75,24 @@ This time, during the performance, we not only navigate the triangular area but 
 
 [//]: # (<iframe width="800" height="600" src="https://www.youtube.com/embed/PqI_d1JYQpU?si=oGSNfsZEo0WnauYl&vq=hd2160&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>)
 
+<a href="#imgPop">
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/GT_SequencerAccompaniment.png" alt="Thumbnail" style="max-width: 800px;">
+</a>
+
+<!-- The modal -->
+<div id="imgPop" class="modal">
+  <a href="#" class="close" 
+     onclick="closeModal(event);"> <!-- We'll define closeModal() in JS -->
+    &times;
+  </a>
+
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/GT_SequencerAccompaniment.png" alt="Fullsize">
+</div>
+
+
 
 <iframe width="800" height="600" src="https://www.youtube.com/embed/PqI_d1JYQpU?si=E7zcWoeCKjKdC7Pb&amp;clip=Ugkxtlok0Ma02HSiY2Gmt2UmrNEA0BRjGzIr&amp;clipt=ELSGFhiU2xk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
 
 Ok! Let's take it up a notch. So far, we've been using the generations to trigger drum samples. While designed to generate drum patterns, we can use the generations to trigger any kind of sample!
 
@@ -85,14 +101,20 @@ During the session, we navigate the triangular area and change the patterns in r
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/Non-drum Extra Sequencing.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
+[TBD INSERT SESSION OVERVIEW]
+
+
 <video width="800" height="600" controls>
   <source src="{{ site.baseurl }}/assets/videos/used/Non-drum Extra Sequencing_trimmed.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
+
 What's worth noting is that so far, we've only used mainly percussive sources as inputs. In the case of audio, the GrooveTransformer can also be used to generate accompaniments for melodic instruments as well, that said, depending on the texture and the complexity of the audio, the results may vary.
 Specifically, for sounds with slow attack times, the GrooveTransformer may not be able to capture the rhythmic content accurately (or at all). In the following example, we feed non-percussive audio to the plugin and perform on the sequencer same as before. Note that only some of the audio events can be 
 detected by the GrooveTransformer, and the rest are ignored.
+
+[TBD INSERT SESSION OVERVIEW]
 
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/NonPercussiveAudioInputs.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
@@ -111,6 +133,8 @@ This way, the top corner will also be associated with an "artificially static" g
 In the following example, we start from A, morph to B, and then to morph to G (fed with a looping MIDI sequence that is not synthesized). Note that, the pad sounds you hear in this example are not fed to the plugin and are just being played for the sake of the performance.
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/PatternMorph3Grooves.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
+
+[TBD INSERT SESSION OVERVIEW]
 
 <video width="800" height="600" controls>
   <source src="{{ site.baseurl }}/assets/videos/used/PatternMorph3Grooves_trimmed.mp4" type="video/mp4">
@@ -134,6 +158,9 @@ The plugin then generates the accompaniment based on the input and we synthesize
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/AutonomousPerformingClips.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
+[TBD INSERT SESSION OVERVIEW]
+
+
 <video width="800" height="600" controls>
   <source src="{{ site.baseurl }}/assets/videos/used/AutonomousPerformingClips.mp4" type="video/mp4">
   Your browser does not support the video tag.
@@ -143,6 +170,21 @@ The plugin then generates the accompaniment based on the input and we synthesize
 Alternatively, we can allow the plugin to play a pattern and we can start jamming on top of it, using any instrument we like. Below is an example of how we can use the GrooveTransformer as a pseudo-autonomous rhythm generator, while we play a pattern on an external synthesizer.
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/FullAutoAccomp.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
+
+<a href="#keyaccomp">
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/Keyboard Accompaniment.png" alt="Thumbnail" style="max-width: 800px;">
+</a>
+
+<!-- The modal -->
+<div id="keyaccomp" class="modal">
+  <a href="#" class="clo  se" 
+     onclick="closeModal(event);"> <!-- We'll define closeModal() in JS -->
+    &times;
+  </a>
+
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/Keyboard Accompaniment.png" alt="Fullsize">
+</div>
+
 
 <video width="800" height="600" controls>
   <source src="{{ site.baseurl }}/assets/videos/used/FullAutoAccomp.mp4" type="video/mp4">
@@ -156,6 +198,23 @@ Alternatively, we can allow the plugin to play a pattern and we can start jammin
 </video>
 
 The performance on the external instrument is not limited to performing the keys! In the following example, we are sequencing the external synth and play with the synthesis parameters in real-time.
+
+
+
+<a href="#synthaccomp">
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/SynthAccompaniment.png" alt="Thumbnail" style="max-width: 800px;">
+</a>
+
+<!-- The modal -->
+<div id="synthaccomp" class="modal">
+  <a href="#" class="clo  se" 
+     onclick="closeModal(event);"> <!-- We'll define closeModal() in JS -->
+    &times;
+  </a>
+
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/SynthAccompaniment.png" alt="Fullsize">
+</div>
+
 
 <video width="800" height="600" controls>
   <source src="{{ site.baseurl }}/assets/videos/used/snippet1_ms20_trimmed.mp4" type="video/mp4">
@@ -174,6 +233,9 @@ Instead of using it as a trigger sequencer, we can use it to sequence parameters
 In the following example, we have prepared a virtual modular patch (in [VCV Rack](https://vcvrack.com/)) that uses the velocity of the generations to modulate some parameters of the [Mutable Instruments Plaits module](https://mutable-instruments.net/modules/plaits/).
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/UsingVelocityFeaturesForParameterSequencing.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
+
+[TBD INSERT SESSION OVERVIEW]
+
 
 <video width="800" height="600" controls>
   <source src="{{ site.baseurl }}/assets/videos/used/UsingVelocityFeaturesForParameterSequencing.mp4" type="video/mp4">
@@ -198,6 +260,23 @@ For this, we need to make custom processing chains that can take the output of t
 
 In the following example, we have a custom patch in [VCV Rack](https://vcvrack.com/) that takes the output of the GrooveTransformer and uses the trigger/velocity of the generations to activate three voltage-controlled amplifiers (VCAs). Each VCA is connected to a different audio source, and the output of the VCAs is mixed together.
 
+
+<a href="#imgPop">
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/GT_ModulationSource.png" alt="Thumbnail" style="max-width: 800px;">
+</a>
+
+<!-- The modal -->
+<div id="imgPop" class="modal">
+  <a href="#" class="clo  se" 
+     onclick="closeModal(event);"> <!-- We'll define closeModal() in JS -->
+    &times;
+  </a>
+
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/GT_ModulationSource.png" alt="Fullsize">
+</div>
+
+
+
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/RhythmicManipulation of Audio.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
 <video width="800" height="600" controls>
@@ -209,6 +288,22 @@ In the following example, we have a custom patch in [VCV Rack](https://vcvrack.c
 Moreover, we can use multiple instances of the plugin each for a separate purpose. For example, we can use one instance of the GrooveTransformer to generate a drum pattern, and another instance to manipulate audio in real-time.
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/ModSource.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
+
+
+<a href="#MultiInstance">
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/MultiInstance.png" alt="Thumbnail" style="max-width: 800px;">
+</a>
+
+<!-- The modal -->
+<div id="MultiInstance" class="modal">
+  <a href="#" class="clo  se" 
+     onclick="closeModal(event);"> <!-- We'll define closeModal() in JS -->
+    &times;
+  </a>
+
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/MultiInstance.png" alt="Fullsize">
+</div>
+
 
 <video width="800" height="600" controls>
   <source src="{{ site.baseurl }}/assets/videos/used/ModSource.mp4" type="video/mp4">
@@ -228,6 +323,21 @@ The pitch of the generated sequences are all modulated randomly or via a MIDI co
 
 [//]: # (<iframe width="800" width="800" height="600" src="{{ site.baseurl }}/assets/videos/used/PitchSequencing.mp4" frameborder="20" allowfullscreen autoplay="false"></iframe>)
 
+<a href="#PitchSequencing">
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/PitchSequencing.png" alt="Thumbnail" style="max-width: 800px;">
+</a>
+
+<!-- The modal -->
+<div id="PitchSequencing" class="modal">
+  <a href="#" class="clo  se" 
+     onclick="closeModal(event);"> <!-- We'll define closeModal() in JS -->
+    &times;
+  </a>
+
+  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/PitchSequencing.png" alt="Fullsize">
+</div>
+
+
 <video width="800" height="600" controls>
   <source src="{{ site.baseurl }}/assets/videos/used/PitchSequencing_trimmed.mp4" type="video/mp4">
   Your browser does not support the video tag.
@@ -240,34 +350,7 @@ The pitch of the generated sequences are all modulated randomly or via a MIDI co
 
 
 
-<a href="#imgPop">
-  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/GT_SequencerAccompaniment.png" alt="Thumbnail" style="max-width: 800px;">
-</a>
-
-<!-- The modal -->
-<div id="imgPop" class="modal">
-  <a href="#" class="close" 
-     onclick="closeModal(event);"> <!-- We'll define closeModal() in JS -->
-    &times;
-  </a>
-
-  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/GT_SequencerAccompaniment.png" alt="Fullsize">
-</div>
 
 
 
 
-
-<a href="#imgPop">
-  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/GT_ModulationSource.png" alt="Thumbnail" style="max-width: 800px;">
-</a>
-
-<!-- The modal -->
-<div id="imgPop" class="modal">
-  <a href="#" class="clo  se" 
-     onclick="closeModal(event);"> <!-- We'll define closeModal() in JS -->
-    &times;
-  </a>
-
-  <img src="{{ site.baseurl }}/assets/images/midi_tools/groovetransformer/examples/GT_ModulationSource.png" alt="Fullsize">
-</div>
